@@ -105,6 +105,7 @@ namespace Studio.Controllers
         {
             if (ModelState.IsValid)
             {
+                rep.Update(order);
                 rep.Save();
                 return RedirectToAction("Index");
             }

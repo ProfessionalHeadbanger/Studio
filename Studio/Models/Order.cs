@@ -10,7 +10,7 @@ namespace Studio.Models
 	{
 		public int Id { get; set; } // Столбец первичного ключа
 		[Required]
-        [DataType(DataType.DateTime)]
+        [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = true)]
         public DateTime Date { get; set; } // Столбец даты заказа
 		[Required, Range(100.0, double.MaxValue)]
