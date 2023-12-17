@@ -8,18 +8,30 @@ using System.Web;
 using System.Web.Mvc;
 using Studio.DAL;
 using Studio.Models;
+using static System.Collections.Specialized.BitVector32;
 
 namespace Studio.Controllers
 {
     public class OrderController : Controller
     {
-        private StudioContext db = new StudioContext();
+        private readonly GenericRepository<Order> rep;
+        private readonly GenericRepository<Customer> customerRep;
+        private readonly GenericRepository<Model> modelRep;
+        private readonly GenericRepository<Printer> printerRep;
+
+        public OrderController()
+        {
+            rep = new GenericRepository<Order>(new StudioContext());
+            customerRep = new GenericRepository<Customer>(new StudioContext());
+            modelRep = new GenericRepository<Model>(new StudioContext());
+            printerRep = new GenericRepository<Printer>(new StudioContext());
+        }
 
         // GET: Order
         public ActionResult Index()
         {
-            var orders = db.Orders.Include(o => o.Customer).Include(o => o.Model).Include(o => o.Printer);
-            return View(orders.ToList());
+            var orders = rep.GetAll().Include(o => o.Customer).Include(o => o.Model).Include(o => o.Printer).ToList();
+            return View(orders);
         }
 
         // GET: Order/Details/5
@@ -29,7 +41,7 @@ namespace Studio.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Order order = db.Orders.Find(id);
+            Order order = rep.GetById(id);
             if (order == null)
             {
                 return HttpNotFound();
@@ -40,9 +52,9 @@ namespace Studio.Controllers
         // GET: Order/Create
         public ActionResult Create()
         {
-            ViewBag.CustomerId = new SelectList(db.Customers, "Id", "Name");
-            ViewBag.ModelId = new SelectList(db.Models, "Id", "Name");
-            ViewBag.PrinterId = new SelectList(db.Printers, "Id", "Manufacturer");
+            ViewBag.CustomerId = new SelectList(customerRep.GetAll(), "Id", "Name");
+            ViewBag.ModelId = new SelectList(modelRep.GetAll(), "Id", "Name");
+            ViewBag.PrinterId = new SelectList(printerRep.GetAll(), "Id", "Manufacturer");
             return View();
         }
 
@@ -55,14 +67,14 @@ namespace Studio.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Orders.Add(order);
-                db.SaveChanges();
+                rep.Insert(order);
+                rep.Save();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.CustomerId = new SelectList(db.Customers, "Id", "Name", order.CustomerId);
-            ViewBag.ModelId = new SelectList(db.Models, "Id", "Name", order.ModelId);
-            ViewBag.PrinterId = new SelectList(db.Printers, "Id", "Manufacturer", order.PrinterId);
+            ViewBag.CustomerId = new SelectList(customerRep.GetAll(), "Id", "Name", order.CustomerId);
+            ViewBag.ModelId = new SelectList(modelRep.GetAll(), "Id", "Name", order.ModelId);
+            ViewBag.PrinterId = new SelectList(printerRep.GetAll(), "Id", "Manufacturer", order.PrinterId);
             return View(order);
         }
 
@@ -73,14 +85,14 @@ namespace Studio.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Order order = db.Orders.Find(id);
+            Order order = rep.GetById(id);
             if (order == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.CustomerId = new SelectList(db.Customers, "Id", "Name", order.CustomerId);
-            ViewBag.ModelId = new SelectList(db.Models, "Id", "Name", order.ModelId);
-            ViewBag.PrinterId = new SelectList(db.Printers, "Id", "Manufacturer", order.PrinterId);
+            ViewBag.CustomerId = new SelectList(customerRep.GetAll(), "Id", "Name", order.CustomerId);
+            ViewBag.ModelId = new SelectList(modelRep.GetAll(), "Id", "Name", order.ModelId);
+            ViewBag.PrinterId = new SelectList(printerRep.GetAll(), "Id", "Manufacturer", order.PrinterId);
             return View(order);
         }
 
@@ -93,13 +105,12 @@ namespace Studio.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(order).State = EntityState.Modified;
-                db.SaveChanges();
+                rep.Save();
                 return RedirectToAction("Index");
             }
-            ViewBag.CustomerId = new SelectList(db.Customers, "Id", "Name", order.CustomerId);
-            ViewBag.ModelId = new SelectList(db.Models, "Id", "Name", order.ModelId);
-            ViewBag.PrinterId = new SelectList(db.Printers, "Id", "Manufacturer", order.PrinterId);
+            ViewBag.CustomerId = new SelectList(customerRep.GetAll(), "Id", "Name", order.CustomerId);
+            ViewBag.ModelId = new SelectList(modelRep.GetAll(), "Id", "Name", order.ModelId);
+            ViewBag.PrinterId = new SelectList(printerRep.GetAll(), "Id", "Manufacturer", order.PrinterId);
             return View(order);
         }
 
@@ -110,7 +121,7 @@ namespace Studio.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Order order = db.Orders.Find(id);
+            Order order = rep.GetById(id);
             if (order == null)
             {
                 return HttpNotFound();
@@ -123,9 +134,8 @@ namespace Studio.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Order order = db.Orders.Find(id);
-            db.Orders.Remove(order);
-            db.SaveChanges();
+            rep.Delete(id);
+            rep.Save();
             return RedirectToAction("Index");
         }
 
@@ -133,7 +143,7 @@ namespace Studio.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                rep.Dispose();
             }
             base.Dispose(disposing);
         }
