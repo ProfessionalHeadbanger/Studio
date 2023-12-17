@@ -13,12 +13,17 @@ namespace Studio.Controllers
 {
     public class CustomerController : Controller
     {
-        private StudioContext db = new StudioContext();
+        private readonly GenericRepository<Customer> rep;
+
+        public CustomerController()
+        {
+            rep = new GenericRepository<Customer>(new StudioContext());
+        }
 
         // GET: Customer
         public ActionResult Index()
         {
-            return View(db.Customers.ToList());
+            return View(rep.GetAll());
         }
 
         // GET: Customer/Details/5
@@ -28,7 +33,7 @@ namespace Studio.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Customer customer = db.Customers.Find(id);
+            Customer customer = rep.GetById(id);
             if (customer == null)
             {
                 return HttpNotFound();
@@ -51,8 +56,8 @@ namespace Studio.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Customers.Add(customer);
-                db.SaveChanges();
+                rep.Insert(customer);
+                rep.Save();
                 return RedirectToAction("Index");
             }
 
@@ -66,7 +71,7 @@ namespace Studio.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Customer customer = db.Customers.Find(id);
+            Customer customer = rep.GetById(id);
             if (customer == null)
             {
                 return HttpNotFound();
@@ -83,8 +88,8 @@ namespace Studio.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(customer).State = EntityState.Modified;
-                db.SaveChanges();
+                rep.Update(customer);
+                rep.Save();
                 return RedirectToAction("Index");
             }
             return View(customer);
@@ -97,7 +102,7 @@ namespace Studio.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Customer customer = db.Customers.Find(id);
+            Customer customer = rep.GetById(id);
             if (customer == null)
             {
                 return HttpNotFound();
@@ -110,9 +115,8 @@ namespace Studio.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Customer customer = db.Customers.Find(id);
-            db.Customers.Remove(customer);
-            db.SaveChanges();
+            rep.Delete(id);
+            rep.Save();
             return RedirectToAction("Index");
         }
 
@@ -120,7 +124,7 @@ namespace Studio.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                rep.Dispose();
             }
             base.Dispose(disposing);
         }
