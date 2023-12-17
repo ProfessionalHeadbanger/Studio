@@ -13,12 +13,17 @@ namespace Studio.Controllers
 {
     public class ModelController : Controller
     {
-        private StudioContext db = new StudioContext();
+        private readonly GenericRepository<Model> rep;
+
+        public ModelController()
+        {
+            rep = new GenericRepository<Model>(new StudioContext());
+        }
 
         // GET: Model
         public ActionResult Index()
         {
-            return View(db.Models.ToList());
+            return View(rep.GetAll());
         }
 
         // GET: Model/Details/5
@@ -28,7 +33,7 @@ namespace Studio.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Model model = db.Models.Find(id);
+            Model model = rep.GetById(id);
             if (model == null)
             {
                 return HttpNotFound();
@@ -51,8 +56,8 @@ namespace Studio.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Models.Add(model);
-                db.SaveChanges();
+                rep.Insert(model);
+                rep.Save();
                 return RedirectToAction("Index");
             }
 
@@ -66,7 +71,7 @@ namespace Studio.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Model model = db.Models.Find(id);
+            Model model = rep.GetById(id);
             if (model == null)
             {
                 return HttpNotFound();
@@ -83,8 +88,8 @@ namespace Studio.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(model).State = EntityState.Modified;
-                db.SaveChanges();
+                rep.Update(model);
+                rep.Save();
                 return RedirectToAction("Index");
             }
             return View(model);
@@ -97,7 +102,7 @@ namespace Studio.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Model model = db.Models.Find(id);
+            Model model = rep.GetById(id);
             if (model == null)
             {
                 return HttpNotFound();
@@ -110,9 +115,8 @@ namespace Studio.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Model model = db.Models.Find(id);
-            db.Models.Remove(model);
-            db.SaveChanges();
+            rep.Delete(id);
+            rep.Save();
             return RedirectToAction("Index");
         }
 
@@ -120,7 +124,7 @@ namespace Studio.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                rep.Dispose();
             }
             base.Dispose(disposing);
         }
