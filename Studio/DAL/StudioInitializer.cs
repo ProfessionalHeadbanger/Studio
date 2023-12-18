@@ -40,9 +40,9 @@ namespace Studio.DAL
 			// Создаем список клиентов
 			var customers = new List<Customer>
 			{
-				new Customer { Name = "Alice", Email = "alice@example.com", Phone = "123-4567" },
-				new Customer { Name = "Bob", Email = "bob@example.com", Phone = "234-5678" },
-				new Customer { Name = "Charlie", Email = "charlie@example.com", Phone = "345-6789" }
+				new Customer { Name = "Alice", Email = "alice@example.com", Phone = "123-456-7890" },
+				new Customer { Name = "Bob", Email = "bob@example.com", Phone = "234-567-8900" },
+				new Customer { Name = "Charlie", Email = "charlie@example.com", Phone = "345-678-9012" }
 			};
 
 			// Добавляем клиентов в контекст
