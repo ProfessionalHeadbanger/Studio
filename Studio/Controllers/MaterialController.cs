@@ -13,18 +13,18 @@ namespace Studio.Controllers
 {
     public class MaterialController : Controller
     {
-        private readonly GenericRepository<Material> rep;
+        private readonly ControlClass<Material> cc;
 
         public MaterialController()
         {
-            rep = new GenericRepository<Material>(new StudioContext());
+            cc = new ControlClass<Material>(new StudioContext());
         }
 
 
         // GET: Material
         public ActionResult Index()
         {
-            return View(rep.GetAll());
+            return View(cc.GetAll());
         }
 
         // GET: Material/Details/5
@@ -34,7 +34,7 @@ namespace Studio.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Material material = rep.GetById(id);
+            Material material = cc.GetById(id);
             if (material == null)
             {
                 return HttpNotFound();
@@ -57,8 +57,8 @@ namespace Studio.Controllers
         {
             if (ModelState.IsValid)
             {
-                rep.Insert(material);
-                rep.Save();
+                cc.Insert(material);
+                cc.Save();
                 return RedirectToAction("Index");
             }
 
@@ -72,7 +72,7 @@ namespace Studio.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Material material = rep.GetById(id);
+            Material material = cc.GetById(id);
             if (material == null)
             {
                 return HttpNotFound();
@@ -89,8 +89,8 @@ namespace Studio.Controllers
         {
             if (ModelState.IsValid)
             {
-                rep.Update(material);
-                rep.Save();
+                cc.Update(material);
+                cc.Save();
                 return RedirectToAction("Index");
             }
             return View(material);
@@ -103,7 +103,7 @@ namespace Studio.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Material material = rep.GetById(id);
+            Material material = cc.GetById(id);
             if (material == null)
             {
                 return HttpNotFound();
@@ -116,8 +116,8 @@ namespace Studio.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            rep.Delete(id);
-            rep.Save();
+            cc.Delete(id);
+            cc.Save();
             return RedirectToAction("Index");
         }
 
@@ -125,7 +125,7 @@ namespace Studio.Controllers
         {
             if (disposing)
             {
-                rep.Dispose();
+                cc.Dispose();
             }
             base.Dispose(disposing);
         }

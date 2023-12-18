@@ -12,9 +12,11 @@ namespace Studio.Models
 		[Required]
 		public string Name { get; set; } // Столбец имени клиента
 		[Required]
-		public string Email { get; set; } // Столбец электронной почты клиента
+        [EmailAddress(ErrorMessage = "Некорректный адрес электронной почты")]
+        public string Email { get; set; } // Столбец электронной почты клиента
 		[Required]
-		public string Phone { get; set; } // Столбец телефона клиента
+        [RegularExpression(@"^\d{3}-\d{3}-\d{4}$", ErrorMessage = "Некорректный номер телефона. Используйте формат 123-456-7890")]
+        public string Phone { get; set; } // Столбец телефона клиента
 		public ICollection<Order> Orders { get; set; } // Коллекция навигационных свойств для заказов
 	}
 }

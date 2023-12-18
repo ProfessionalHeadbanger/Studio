@@ -13,17 +13,17 @@ namespace Studio.Controllers
 {
     public class PrinterController : Controller
     {
-        private readonly GenericRepository<Printer> rep;
+        private readonly ControlClass<Printer> cc;
 
         public PrinterController()
         {
-            rep = new GenericRepository<Printer>(new StudioContext());
+            cc = new ControlClass<Printer>(new StudioContext());
         }
 
         // GET: Printer
         public ActionResult Index()
         {
-            return View(rep.GetAll());
+            return View(cc.GetAll());
         }
 
         // GET: Printer/Details/5
@@ -33,7 +33,7 @@ namespace Studio.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Printer printer = rep.GetById(id);
+            Printer printer = cc.GetById(id);
             if (printer == null)
             {
                 return HttpNotFound();
@@ -56,8 +56,8 @@ namespace Studio.Controllers
         {
             if (ModelState.IsValid)
             {
-                rep.Insert(printer);
-                rep.Save();
+                cc.Insert(printer);
+                cc.Save();
                 return RedirectToAction("Index");
             }
 
@@ -71,7 +71,7 @@ namespace Studio.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Printer printer = rep.GetById(id);
+            Printer printer = cc.GetById(id);
             if (printer == null)
             {
                 return HttpNotFound();
@@ -88,8 +88,8 @@ namespace Studio.Controllers
         {
             if (ModelState.IsValid)
             {
-                rep.Update(printer);
-                rep.Save();
+                cc.Update(printer);
+                cc.Save();
                 return RedirectToAction("Index");
             }
             return View(printer);
@@ -102,7 +102,7 @@ namespace Studio.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Printer printer = rep.GetById(id);
+            Printer printer = cc.GetById(id);
             if (printer == null)
             {
                 return HttpNotFound();
@@ -115,8 +115,8 @@ namespace Studio.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            rep.Delete(id);
-            rep.Save();
+            cc.Delete(id);
+            cc.Save();
             return RedirectToAction("Index");
         }
 
@@ -124,7 +124,7 @@ namespace Studio.Controllers
         {
             if (disposing)
             {
-                rep.Dispose();
+                cc.Dispose();
             }
             base.Dispose(disposing);
         }

@@ -15,11 +15,11 @@ namespace Studio.DAL
 		void Save();
 	}
 
-	public class GenericRepository<T> : IRepository<T> where T : class
+	public class ControlClass<T> : IRepository<T> where T : class
 	{
 		private readonly StudioContext _context;
 
-		public GenericRepository(StudioContext context)
+		public ControlClass(StudioContext context)
 		{
 			_context = context ?? throw new ArgumentNullException(nameof(context));
 		}
