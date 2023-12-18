@@ -41,7 +41,7 @@ namespace Studio.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Order order = cc.GetById(id);
+            Order order = cc.GetAll().Include(o => o.Customer).Include(o => o.Model).Include(o => o.Printer).Include(o => o.Materials).SingleOrDefault(o => o.Id == id);
             if (order == null)
             {
                 return HttpNotFound();
@@ -53,7 +53,7 @@ namespace Studio.Controllers
         public ActionResult Create()
         {
             ViewBag.CustomerId = new SelectList(customerCc.GetAll(), "Id", "Name");
-            ViewBag.ModelId = new SelectList(modelCc.GetAll(), "Id", "Name");
+            ViewBag.ModelId = new SelectList(modelCc.GetAll(), "Id", "ModelName");
             ViewBag.PrinterId = new SelectList(printerCc.GetAll(), "Id", "Manufacturer");
             return View();
         }
@@ -73,7 +73,7 @@ namespace Studio.Controllers
             }
 
             ViewBag.CustomerId = new SelectList(customerCc.GetAll(), "Id", "Name", order.CustomerId);
-            ViewBag.ModelId = new SelectList(modelCc.GetAll(), "Id", "Name", order.ModelId);
+            ViewBag.ModelId = new SelectList(modelCc.GetAll(), "Id", "ModelName", order.ModelId);
             ViewBag.PrinterId = new SelectList(printerCc.GetAll(), "Id", "Manufacturer", order.PrinterId);
             return View(order);
         }
@@ -91,7 +91,7 @@ namespace Studio.Controllers
                 return HttpNotFound();
             }
             ViewBag.CustomerId = new SelectList(customerCc.GetAll(), "Id", "Name", order.CustomerId);
-            ViewBag.ModelId = new SelectList(modelCc.GetAll(), "Id", "Name", order.ModelId);
+            ViewBag.ModelId = new SelectList(modelCc.GetAll(), "Id", "ModelName", order.ModelId);
             ViewBag.PrinterId = new SelectList(printerCc.GetAll(), "Id", "Manufacturer", order.PrinterId);
             return View(order);
         }
@@ -110,7 +110,7 @@ namespace Studio.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.CustomerId = new SelectList(customerCc.GetAll(), "Id", "Name", order.CustomerId);
-            ViewBag.ModelId = new SelectList(modelCc.GetAll(), "Id", "Name", order.ModelId);
+            ViewBag.ModelId = new SelectList(modelCc.GetAll(), "Id", "ModelName", order.ModelId);
             ViewBag.PrinterId = new SelectList(printerCc.GetAll(), "Id", "Manufacturer", order.PrinterId);
             return View(order);
         }

@@ -50,6 +50,35 @@
             @Html.DisplayFor(model => model.Price)
         </dd>
 
+        <dt>
+            Materials
+        </dt>
+        <dd>
+            @if (Model.Materials != null && Model.Materials.Any())
+            {
+                <table class="table">
+                    <tr>
+                        <th>Material ID</th>
+                        <th>Material Name</th>
+                        <th>Type</th>
+                        <th>Color</th>
+                    </tr>
+                    @foreach (var material in Model.Materials)
+                    {
+                        <tr>
+                            <td>@material.Id</td>
+                            <td>@material.MaterialName</td>
+                            <td>@material.Type</td>
+                            <td>@material.Color</td>
+                        </tr>
+                    }
+                </table>
+            }
+            else
+            {
+                <p>No materials in this order.</p>
+            }
+        </dd>
     </dl>
 </div>
 <p>
