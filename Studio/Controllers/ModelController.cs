@@ -33,7 +33,7 @@ namespace Studio.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Model model = cc.GetById(id);
+            Model model = cc.GetAll().Include(m => m.Orders).SingleOrDefault(m => m.Id == id);
             if (model == null)
             {
                 return HttpNotFound();
