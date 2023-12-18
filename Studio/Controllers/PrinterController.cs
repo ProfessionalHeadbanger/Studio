@@ -52,7 +52,7 @@ namespace Studio.Controllers
         // сведения см. в разделе https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Manufacturer,Name,Status")] Printer printer)
+        public ActionResult Create([Bind(Include = "Id,Manufacturer,PrinterModel,Status")] Printer printer)
         {
             if (ModelState.IsValid)
             {
@@ -84,7 +84,7 @@ namespace Studio.Controllers
         // сведения см. в разделе https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Manufacturer,Name,Status")] Printer printer)
+        public ActionResult Edit([Bind(Include = "Id,Manufacturer,PrinterModel,Status")] Printer printer)
         {
             if (ModelState.IsValid)
             {
