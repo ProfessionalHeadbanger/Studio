@@ -33,7 +33,7 @@ namespace Studio.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Customer customer = cc.GetById(id);
+            Customer customer = cc.GetAll().Include(c => c.Orders).SingleOrDefault(c => c.Id == id);
             if (customer == null)
             {
                 return HttpNotFound();
