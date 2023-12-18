@@ -13,7 +13,6 @@
         <dt>
             @Html.DisplayNameFor(model => model.Name)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Name)
         </dd>
@@ -21,7 +20,6 @@
         <dt>
             @Html.DisplayNameFor(model => model.Type)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Type)
         </dd>
@@ -29,11 +27,35 @@
         <dt>
             @Html.DisplayNameFor(model => model.Color)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Color)
         </dd>
 
+        <dt>
+            Orders using this material
+        </dt>
+        <dd>
+            @if (Model.Orders != null && Model.Orders.Any())
+            {
+                <table class="table">
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Date</th>
+                    </tr>
+                    @foreach (var order in Model.Orders)
+                    {
+                        <tr>
+                            <td>@order.Id</td>
+                            <td>@order.Date.ToShortDateString()</td>
+                        </tr>
+                    }
+                </table>
+            }
+            else
+            {
+                <p>No orders use this material.</p>
+            }
+        </dd>
     </dl>
 </div>
 <p>

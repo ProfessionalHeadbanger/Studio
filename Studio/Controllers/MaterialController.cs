@@ -34,7 +34,7 @@ namespace Studio.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Material material = cc.GetById(id);
+            Material material = cc.GetAll().Include(m => m.Orders).SingleOrDefault(m => m.Id == id);
             if (material == null)
             {
                 return HttpNotFound();
