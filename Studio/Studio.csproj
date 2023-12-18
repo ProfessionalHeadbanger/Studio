@@ -133,7 +133,7 @@
     <Compile Include="Controllers\ModelController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\PrinterController.cs" />
-    <Compile Include="DAL\GenericRepository.cs" />
+    <Compile Include="DAL\ControlClass.cs" />
     <Compile Include="DAL\StudioContext.cs" />
     <Compile Include="DAL\StudioInitializer.cs" />
     <Compile Include="Global.asax.cs">

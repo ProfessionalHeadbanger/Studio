@@ -14,23 +14,23 @@ namespace Studio.Controllers
 {
     public class OrderController : Controller
     {
-        private readonly GenericRepository<Order> rep;
-        private readonly GenericRepository<Customer> customerRep;
-        private readonly GenericRepository<Model> modelRep;
-        private readonly GenericRepository<Printer> printerRep;
+        private readonly ControlClass<Order> cc;
+        private readonly ControlClass<Customer> customerCc;
+        private readonly ControlClass<Model> modelCc;
+        private readonly ControlClass<Printer> printerCc;
 
         public OrderController()
         {
-            rep = new GenericRepository<Order>(new StudioContext());
-            customerRep = new GenericRepository<Customer>(new StudioContext());
-            modelRep = new GenericRepository<Model>(new StudioContext());
-            printerRep = new GenericRepository<Printer>(new StudioContext());
+            cc = new ControlClass<Order>(new StudioContext());
+            customerCc = new ControlClass<Customer>(new StudioContext());
+            modelCc = new ControlClass<Model>(new StudioContext());
+            printerCc = new ControlClass<Printer>(new StudioContext());
         }
 
         // GET: Order
         public ActionResult Index()
         {
-            var orders = rep.GetAll().Include(o => o.Customer).Include(o => o.Model).Include(o => o.Printer).ToList();
+            var orders = cc.GetAll().Include(o => o.Customer).Include(o => o.Model).Include(o => o.Printer).ToList();
             return View(orders);
         }
 
@@ -41,7 +41,7 @@ namespace Studio.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Order order = rep.GetById(id);
+            Order order = cc.GetById(id);
             if (order == null)
             {
                 return HttpNotFound();
@@ -52,9 +52,9 @@ namespace Studio.Controllers
         // GET: Order/Create
         public ActionResult Create()
         {
-            ViewBag.CustomerId = new SelectList(customerRep.GetAll(), "Id", "Name");
-            ViewBag.ModelId = new SelectList(modelRep.GetAll(), "Id", "Name");
-            ViewBag.PrinterId = new SelectList(printerRep.GetAll(), "Id", "Manufacturer");
+            ViewBag.CustomerId = new SelectList(customerCc.GetAll(), "Id", "Name");
+            ViewBag.ModelId = new SelectList(modelCc.GetAll(), "Id", "Name");
+            ViewBag.PrinterId = new SelectList(printerCc.GetAll(), "Id", "Manufacturer");
             return View();
         }
 
@@ -67,14 +67,14 @@ namespace Studio.Controllers
         {
             if (ModelState.IsValid)
             {
-                rep.Insert(order);
-                rep.Save();
+                cc.Insert(order);
+                cc.Save();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.CustomerId = new SelectList(customerRep.GetAll(), "Id", "Name", order.CustomerId);
-            ViewBag.ModelId = new SelectList(modelRep.GetAll(), "Id", "Name", order.ModelId);
-            ViewBag.PrinterId = new SelectList(printerRep.GetAll(), "Id", "Manufacturer", order.PrinterId);
+            ViewBag.CustomerId = new SelectList(customerCc.GetAll(), "Id", "Name", order.CustomerId);
+            ViewBag.ModelId = new SelectList(modelCc.GetAll(), "Id", "Name", order.ModelId);
+            ViewBag.PrinterId = new SelectList(printerCc.GetAll(), "Id", "Manufacturer", order.PrinterId);
             return View(order);
         }
 
@@ -85,14 +85,14 @@ namespace Studio.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Order order = rep.GetById(id);
+            Order order = cc.GetById(id);
             if (order == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.CustomerId = new SelectList(customerRep.GetAll(), "Id", "Name", order.CustomerId);
-            ViewBag.ModelId = new SelectList(modelRep.GetAll(), "Id", "Name", order.ModelId);
-            ViewBag.PrinterId = new SelectList(printerRep.GetAll(), "Id", "Manufacturer", order.PrinterId);
+            ViewBag.CustomerId = new SelectList(customerCc.GetAll(), "Id", "Name", order.CustomerId);
+            ViewBag.ModelId = new SelectList(modelCc.GetAll(), "Id", "Name", order.ModelId);
+            ViewBag.PrinterId = new SelectList(printerCc.GetAll(), "Id", "Manufacturer", order.PrinterId);
             return View(order);
         }
 
@@ -105,13 +105,13 @@ namespace Studio.Controllers
         {
             if (ModelState.IsValid)
             {
-                rep.Update(order);
-                rep.Save();
+                cc.Update(order);
+                cc.Save();
                 return RedirectToAction("Index");
             }
-            ViewBag.CustomerId = new SelectList(customerRep.GetAll(), "Id", "Name", order.CustomerId);
-            ViewBag.ModelId = new SelectList(modelRep.GetAll(), "Id", "Name", order.ModelId);
-            ViewBag.PrinterId = new SelectList(printerRep.GetAll(), "Id", "Manufacturer", order.PrinterId);
+            ViewBag.CustomerId = new SelectList(customerCc.GetAll(), "Id", "Name", order.CustomerId);
+            ViewBag.ModelId = new SelectList(modelCc.GetAll(), "Id", "Name", order.ModelId);
+            ViewBag.PrinterId = new SelectList(printerCc.GetAll(), "Id", "Manufacturer", order.PrinterId);
             return View(order);
         }
 
@@ -122,7 +122,7 @@ namespace Studio.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Order order = rep.GetById(id);
+            Order order = cc.GetById(id);
             if (order == null)
             {
                 return HttpNotFound();
@@ -135,8 +135,8 @@ namespace Studio.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            rep.Delete(id);
-            rep.Save();
+            cc.Delete(id);
+            cc.Save();
             return RedirectToAction("Index");
         }
 
@@ -144,7 +144,7 @@ namespace Studio.Controllers
         {
             if (disposing)
             {
-                rep.Dispose();
+                cc.Dispose();
             }
             base.Dispose(disposing);
         }
