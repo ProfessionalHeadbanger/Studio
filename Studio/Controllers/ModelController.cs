@@ -33,7 +33,7 @@ namespace Studio.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Model model = cc.GetById(id);
+            Model model = cc.GetAll().Include(m => m.Orders).SingleOrDefault(m => m.Id == id);
             if (model == null)
             {
                 return HttpNotFound();
@@ -52,7 +52,7 @@ namespace Studio.Controllers
         // сведения см. в разделе https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Description")] Model model)
+        public ActionResult Create([Bind(Include = "Id,ModelName,Description")] Model model)
         {
             if (ModelState.IsValid)
             {
@@ -84,7 +84,7 @@ namespace Studio.Controllers
         // сведения см. в разделе https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Description")] Model model)
+        public ActionResult Edit([Bind(Include = "Id,ModelName,Description")] Model model)
         {
             if (ModelState.IsValid)
             {

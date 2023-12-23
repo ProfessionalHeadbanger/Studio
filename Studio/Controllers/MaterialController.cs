@@ -34,7 +34,7 @@ namespace Studio.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Material material = cc.GetById(id);
+            Material material = cc.GetAll().Include(m => m.Orders).SingleOrDefault(m => m.Id == id);
             if (material == null)
             {
                 return HttpNotFound();
@@ -53,7 +53,7 @@ namespace Studio.Controllers
         // сведения см. в разделе https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Type,Color")] Material material)
+        public ActionResult Create([Bind(Include = "Id,MaterialName,Type,Color")] Material material)
         {
             if (ModelState.IsValid)
             {
@@ -85,7 +85,7 @@ namespace Studio.Controllers
         // сведения см. в разделе https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Type,Color")] Material material)
+        public ActionResult Edit([Bind(Include = "Id,MaterialName,Type,Color")] Material material)
         {
             if (ModelState.IsValid)
             {

@@ -13,7 +13,6 @@
         <dt>
             @Html.DisplayNameFor(model => model.Name)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Name)
         </dd>
@@ -21,7 +20,6 @@
         <dt>
             @Html.DisplayNameFor(model => model.Email)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Email)
         </dd>
@@ -29,11 +27,37 @@
         <dt>
             @Html.DisplayNameFor(model => model.Phone)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Phone)
         </dd>
 
+        <dt>
+            Orders
+        </dt>
+        <dd>
+            @if (Model.Orders != null && Model.Orders.Any())
+            {
+                <table class="table">
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Date</th>
+                        <th>Price</th>
+                    </tr>
+                    @foreach (var order in Model.Orders)
+                    {
+                        <tr>
+                            <td>@order.Id</td>
+                            <td>@order.Date.ToShortDateString()</td>
+                            <td>@order.Price</td>
+                        </tr>
+                    }
+                </table>
+            }
+            else
+            {
+                <p>No orders for this customer.</p>
+            }
+        </dd>
     </dl>
 </div>
 <p>

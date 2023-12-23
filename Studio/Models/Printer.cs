@@ -17,7 +17,7 @@ namespace Studio.Models
 		[Required]
 		public string Manufacturer { get; set; }
 		[Required]
-		public string Name { get; set; } // Столбец имени принтера
+		public string PrinterModel { get; set; } // Столбец имени принтера
 		[Required]
 		public Status Status { get; set; } // Столбец статуса принтера
 	}

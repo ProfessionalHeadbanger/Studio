@@ -10,7 +10,7 @@ namespace Studio.Models
 	{
 		public int Id { get; set; } // Столбец первичного ключа
 		[Required]
-        public string Name { get; set; } // Столбец имени материала
+        public string MaterialName { get; set; } // Столбец имени материала
 		[Required]
         public string Type { get; set; } // Столбец типа материала
 		[Required]

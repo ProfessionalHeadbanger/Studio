@@ -16,9 +16,9 @@ namespace Studio.DAL
 			// Создаем список принтеров
 			var printers = new List<Printer>
 			{
-				new Printer { Manufacturer = "MakerBot", Name = "Replicator", Status = Status.Working },
-				new Printer { Manufacturer = "Ultimaker", Name = "2+", Status = Status.Working },
-				new Printer { Manufacturer = "Formlabs", Name = "Form 3", Status = Status.Working }
+				new Printer { Manufacturer = "MakerBot", PrinterModel = "Replicator", Status = Status.Working },
+				new Printer { Manufacturer = "Ultimaker", PrinterModel = "2+", Status = Status.Working },
+				new Printer { Manufacturer = "Formlabs", PrinterModel = "Form 3", Status = Status.Working }
 			};
 
 			// Добавляем принтеры в контекст
@@ -28,9 +28,9 @@ namespace Studio.DAL
 			// Создаем список моделей
 			var models = new List<Model>
 			{
-				new Model { Name = "Chess Piece", Description = "A pawn for chess game" },
-				new Model { Name = "Vase", Description = "A decorative vase with flower pattern" },
-				new Model { Name = "Keychain", Description = "A personalized keychain with name" }
+				new Model { ModelName = "Chess Piece", Description = "A pawn for chess game" },
+				new Model { ModelName = "Vase", Description = "A decorative vase with flower pattern" },
+				new Model { ModelName = "Keychain", Description = "A personalized keychain with name" }
 			};
 
 			// Добавляем модели в контекст
@@ -52,9 +52,9 @@ namespace Studio.DAL
 			// Создаем список материалов
 			var materials = new List<Material>
 			{
-				new Material { Name = "SUNLU", Type = "ABS", Color = "White" },
-				new Material { Name = "MAKO", Type = "PETG", Color = "Black" },
-				new Material { Name = "ERYONE", Type = "PLA", Color = "Clear" }
+				new Material { MaterialName = "SUNLU", Type = "ABS", Color = "White" },
+				new Material { MaterialName = "MAKO", Type = "PETG", Color = "Black" },
+				new Material { MaterialName = "ERYONE", Type = "PLA", Color = "Clear" }
 			};
 
 			// Добавляем материалы в контекст

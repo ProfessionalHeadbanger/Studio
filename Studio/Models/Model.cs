@@ -10,7 +10,7 @@ namespace Studio.Models
 	{
 		public int Id { get; set; } // Столбец первичного ключа
 		[Required]
-		public string Name { get; set; } // Столбец имени модели
+		public string ModelName { get; set; } // Столбец имени модели
 		[Required]
 		public string Description { get; set; } // Столбец описания модели
 		public ICollection<Order> Orders { get; set; }
