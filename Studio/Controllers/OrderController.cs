@@ -18,7 +18,6 @@ namespace Studio.Controllers
         private readonly ControlClass<Customer> customerCc;
         private readonly ControlClass<Model> modelCc;
         private readonly ControlClass<Printer> printerCc;
-        private readonly ControlClass<Material> materialCc;
 
         public OrderController()
         {
@@ -26,13 +25,12 @@ namespace Studio.Controllers
             customerCc = new ControlClass<Customer>(new StudioContext());
             modelCc = new ControlClass<Model>(new StudioContext());
             printerCc = new ControlClass<Printer>(new StudioContext());
-            materialCc = new ControlClass<Material>(new StudioContext());
         }
 
         // GET: Order
         public ActionResult Index()
         {
-            var orders = cc.GetAll().Include(o => o.Customer).Include(o => o.Model).Include(o => o.Printer).Include(o => o.Materials).ToList();
+            var orders = cc.GetAll().Include(o => o.Customer).Include(o => o.Model).Include(o => o.Printer).ToList();
             return View(orders);
         }
 
